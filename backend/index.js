@@ -2,11 +2,11 @@
 const express = require("express");
 
 // importing routers
-const userRouter = require('./routers/userRouter');
-const blogRouter = require('./routers/blogRouter');
-const utilRouter = require('./routers/util');
+const userRouter = require("./routers/userRouter");
+const blogRouter = require("./routers/blogRouter");
+const utilRouter = require("./routers/util");
 
-const cors = require('cors');
+const cors = require("cors");
 
 // initialize express app
 const app = express();
@@ -16,15 +16,17 @@ const port = 5000;
 
 app.use(express.json());
 
-app.use(cors({
-  origin: [ 'http://localhost:3000' ]
-}));
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+  })
+);
 
-app.use('/user', userRouter);
-app.use('/blog', blogRouter);
-app.use('/util', utilRouter);
+app.use("/user", userRouter);
+app.use("/blog", blogRouter);
+app.use("/util", utilRouter);
 
-app.use(express.static('./uploads'));
+app.use(express.static("./uploads"));
 
 // routes
 app.get("/", (req, res) => {

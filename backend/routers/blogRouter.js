@@ -1,21 +1,84 @@
 const express = require('express');
+const Model = require('../models/blogModel');
 
 const router = express.Router();
 
-router.get('/addblog', (req, res) => {
-    res.send('Response from addblog');
-})
+router.post('/add', (req, res) => {
+    console.log(req.body);
 
-router.get('/getbyid', (req, res) => {
-    res.send('Response from blog getbyid');
-})
+    new Model(req.body).save()
+    .then((result) => {
+        setTimeout( () => { res.json(result); }, 3000 );
+        
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
 
 router.get('/getall', (req, res) => {
-    res.send('Response from blog getall');
+    
+    Model.find({})
+    .then((result) => {
+        res.json(result);
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
+
+// : denotes url parameter
+router.get('/getbyemail/:email', (req, res) => {
+    console.log(req.params.email);
+
+    // 1. find function matches and returns all the documents
+    // 2. findOne function matches and returns only first document
+    Model.findOne({email : req.params.email})
+    .then((result) => {
+        res.json(result);
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+
 })
 
-module.exports = router;
+router.get('/getbyid/:id', (req, res) => {
 
-// addblog
-// getbyid
-// getall
+    // Model.findOne({_id : req.params.id})
+    Model.findById(req.params.id)
+    .then((result) => {
+        res.json(result);
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
+
+router.delete('/delete/:id', (req, res) => {
+    Model.findByIdAndDelete(req.params.id)
+    .then((result) => {
+        res.json(result);
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
+
+router.put('/update/:id', (req, res) => {
+    Model.findByIdAndUpdate(req.params.id, req.body, {new : true})
+    .then((result) => {
+        res.json(result);
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
+
+module.exports = router;

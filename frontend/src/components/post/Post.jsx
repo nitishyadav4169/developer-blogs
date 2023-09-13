@@ -1,19 +1,23 @@
 import { Link } from "react-router-dom";
 import "./post.css";
+import MarkdownEditor from "@uiw/react-markdown-editor";
 
-export default function Post({img}) {
+export default function Post({blogData}) {
+
+
+
   return (
     <div className="post">
       <img
         className="postImg"
-        src={img}
+        src={'http://localhost:5000/'+blogData.image}
         alt=""
       />
       <div className="postInfo">
         <div className="postCats">
           <span className="postCat">
             <Link className="link" to="/posts?cat=Music">
-              Music
+              music
             </Link>
           </span>
           <span className="postCat">
@@ -23,18 +27,19 @@ export default function Post({img}) {
           </span>
         </div>
         <span className="postTitle">
-          <Link to="/post/abc" className="link">
-            Lorem ipsum dolor sit amet
+          <Link to={"/viewblog/"+blogData._id} className="link">
+            {blogData.title}
           </Link>
         </span>
         <hr />
         <span className="postDate">1 hour ago</span>
       </div>
       <p className="postDesc">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda
-        officia architecto deserunt deleniti? Labore ipsum aspernatur magnam
-        fugiat, reprehenderit praesentium blanditiis quos cupiditate ratione
-        atque, exercitationem quibusdam, reiciendis odio laboriosam?
+        {blogData.description}
+      </p>
+
+      <p>
+      <MarkdownEditor.Markdown source={blogData.content} height="200px" />
       </p>
     </div>
   );

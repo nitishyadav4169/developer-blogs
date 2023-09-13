@@ -1,8 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./topbar.css";
 import { useState } from "react";
 
 export default function Topbar({ isAuthenticate, handleAuthenticate }) {
+  const navigate = useNavigate();
+  const handleLogout = ()=>{
+    handleAuthenticate();
+    navigate("/login")
+  }
   return (
     <div className="top">
       <div className="topLeft">
@@ -34,7 +39,7 @@ export default function Topbar({ isAuthenticate, handleAuthenticate }) {
                 </Link>
               </li>
               <li className="topListItem">
-                <Link onClick={handleAuthenticate}>LOGOUT</Link>
+                <Link onClick={handleLogout}>LOGOUT</Link>
               </li>
             </>
           ) : (
