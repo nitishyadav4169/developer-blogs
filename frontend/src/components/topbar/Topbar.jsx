@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import "./topbar.css";
+import { useState } from "react";
 
-export default function Topbar() {
-  const user = true;
+export default function Topbar({ isAuthenticate, handleAuthenticate }) {
   return (
     <div className="top">
       <div className="topLeft">
@@ -13,45 +13,45 @@ export default function Topbar() {
       </div>
       <div className="topCenter">
         <ul className="topList">
-          <li className="topListItem">
-            <Link className="link" to="/">
-              HOME
-            </Link>
-          </li>
-          <li className="topListItem">ABOUT</li>
-          <li className="topListItem">CONTACT</li>
-          <li className="topListItem">
-            <Link className="link" to="/write">
-              WRITE
-            </Link>
-          </li>
-          {user && <li className="topListItem">LOGOUT</li>}
+          {isAuthenticate ? (
+            <>
+              <li className="topListItem">
+                <Link className="link" to="/">
+                  HOME
+                </Link>
+              </li>
+              <li className="topListItem">
+                <Link className="link" to="/About">
+                  About Us
+                </Link>
+              </li>
+              <li className="topListItem">
+                <Link to="/contact">CONTACT</Link>
+              </li>
+              <li className="topListItem">
+                <Link className="link" to="/write">
+                  WRITE
+                </Link>
+              </li>
+              <li className="topListItem">
+                <Link onClick={handleAuthenticate}>LOGOUT</Link>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className="topListItem">
+                <Link className="link" to="/login">
+                  LOGIN
+                </Link>
+              </li>
+              <li className="topListItem">
+                <Link className="link" to="/register">
+                  REGISTER
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
-      </div>
-      <div className="topRight">
-        {user ? (
-          <Link className="link" to="/settings">
-            <img
-              className="topImg"
-              src="https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              alt=""
-            />
-          </Link>
-        ) : (
-          <ul className="topList">
-            <li className="topListItem">
-              <Link className="link" to="/login">
-                LOGIN
-              </Link>
-            </li>
-            <li className="topListItem">
-              <Link className="link" to="/register">
-                REGISTER
-              </Link>
-            </li>
-          </ul>
-        )}
-        <i className="topSearchIcon fas fa-search"></i>
       </div>
     </div>
   );
